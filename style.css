@@ -1,0 +1,11 @@
+.turn {
+    background: palegreen;
+    box-shadow: 4px 0px 0px green;
+}
+
+.cell {
+    background: pink;
+    color: white;
+    border: solid darkmagenta 1px;
+    box-shadow: 4px 0px 0px pink;
+}
