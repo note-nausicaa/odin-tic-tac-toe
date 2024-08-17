@@ -183,7 +183,7 @@ function ScreenController() {
 
             cellButton.textContent = cell.getValue();
 
-            if (cellButton.textContent === 'o') {cellButton.classList.add('purple')};
+            if (cellButton.textContent === 'o') {cellButton.classList.add('blue')};
 
             if (cellButton.textContent === 'x') {cellButton.classList.add('pinker')}
 
@@ -203,11 +203,9 @@ function ScreenController() {
                 resetBtn.addEventListener('click', () => {
                     game.reset();
                     playerTurnDiv.classList.remove('win')
+                    resetBtn.classList.remove('show');
                     updateScreen();
                     })
-                
-                
-                
                 
             };
 
@@ -253,6 +251,15 @@ function ScreenController() {
     });
 
     const resetScoreBtn = document.querySelector('.reset-score');
+
+    resetScoreBtn.addEventListener('click', () => {
+        const playerScores = players.find(player => player.score);
+            if (playerScores) {
+                players[0].score = 0;
+                players[1].score = 0;
+                updateScreen();
+            };
+    })
     
     updateScreen();
 
