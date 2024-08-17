@@ -1,6 +1,64 @@
+@font-face {
+    font-family: cute-font;
+    src: url(Daydream.ttf);
+}
+
+@font-face {
+    font-family: pixel-font;
+    src: url(rainyhearts.ttf);
+}
+
+body {
+    box-shadow: 0px 0px 10px rgb(199, 199, 199);
+    border: solid 1px rgb(109, 109, 109);
+    display: flex;
+    font-family: cute-font;
+    flex-direction: column;
+}
+
+.start-button {
+    align-self: center;
+    font-family: pixel-font;
+    background: lightblue;
+    border: 1px solid blue;
+    margin: 2px;
+}
+.title {
+    font-family: inherit;
+    text-align: center;
+    margin: 5px;
+    border: solid 1px rgb(255, 255, 157);
+    padding: 20px;
+    background: rgb(225, 169, 241);
+    color: white;
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 30px rgb(187, 186, 255);
+
+}
+
 .turn {
-    background: palegreen;
+    background: rgb(202, 253, 202);
     box-shadow: 4px 0px 0px green;
+    border: solid 1px green;
+    color: rgb(253, 255, 252);
+    padding: 10px;
+    margin: 20px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border: solid 1px rgb(109, 109, 109);
+}
+
+.board {
+    flex: auto;
+    display: grid;
+    grid-template-columns: 50px 50px 50px;
+    grid-template-rows: 50px 50px 50px;
 }
 
 .cell {
@@ -8,4 +66,96 @@
     color: white;
     border: solid darkmagenta 1px;
     box-shadow: 4px 0px 0px pink;
+}
+
+.win {
+    background: gold;
+    color: darkgoldenrod;
+    border: gold;
+    box-shadow: 4px 0px 0px  darkgoldenrod;
+}
+
+.player-wrapper {
+    display: flex;
+    justify-content: center;
+    font-family: pixel-font;
+    background: rgb(239, 198, 250);
+}
+
+.purple {
+    background: purple;
+}
+
+.pinker {
+    background: salmon;
+}
+
+#player-one-name,
+#player-two-name {
+    background: linear-gradient(pink, rgb(255, 230, 234), white);
+    border: pink solid 1px;
+    border-radius: 30px;
+    font-family: pixel-font;
+    padding: 1vh;
+    margin: 4px;
+}
+
+#p1-submit,
+#p2-submit {
+    background: lavender;
+    color: purple;
+    border: solid 1px purple;
+    border-radius: 10px;
+    margin: 5px;
+    font-family: pixel-font;
+    &:active {
+        border: 2px;
+        background: rgb(174, 174, 245);
+        color: white;
+        box-shadow: 0px 0px 12px rgb(209, 180, 255), inset 0px 0px 10px white;
+        transition: 0.3s;
+    }
+}
+
+.score {
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 10px;
+    border: solid 1px rgb(80, 80, 255);
+    background: white;
+    box-shadow: inset 0px 0px 5px silver;
+}
+
+.resetbuttons {
+    display: flex;
+    justify-content: space-between;
+}
+.reset-score {
+    height: 25px;
+    width: 78px;
+    background: rgb(248, 191, 170);
+    border: solid 1px orangered;
+    color: orangered;
+    font-family: pixel-font;
+    border-radius: 10px;
+    margin: 1px;
+}
+
+.reset {
+    display: none;
+    height: 25px;
+    width: 50px;
+    background: rgb(225, 193, 255);
+    border: solid 1px purple;
+    font-family: pixel-font;
+}
+
+label {
+    align-self: center;
+    margin-right: 5px;
+    color: white;
+}
+
+.show {
+    display: block;
 }

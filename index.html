@@ -5,11 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Tic-Tac-Toe</title>
-</head>
+</head> 
 <body>
+    <h1 class="title">Tic-Tac-Toe</h1>
+    <div class="player-wrapper">
+        <label for="player-one-name">Name:</label>
+        <input type="text" placeholder="Player One" id="player-one-name" value="Player One">
+        <button id="p1-submit">Submit</button>
+        <div class="score">
+            </div>
+            <label for="player-two-name">Name:</label>
+            <input type="text" value ="Player Two" id="player-two-name" placeholder="Player Two">
+        <button id="p2-submit">Submit</button>
+    </div>
     <div class="container">
-        <h1 class="turn"></h1>
+        <div class="resetbuttons"><button class="reset-score">Reset Score</button></div>
+        <div class="turn"></div>
         <div class="board"></div>
+        <button class="reset">Play Again!</button>
     </div>
     <script src="script.js"></script>
 </body>
