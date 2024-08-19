@@ -21,6 +21,13 @@
     align-items: center;
 }
 
+.end {
+    font-family: pixel-font;
+    color: blue;
+    background: lightblue;
+    border: 1px solid blue;
+}
+
 .start-button {
     align-self: center;
     font-family: pixel-font;

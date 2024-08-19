@@ -118,6 +118,8 @@ function GameController(
                 if (boardWithCellValues[a].valueOf() !== 0 && boardWithCellValues[a].valueOf() === boardWithCellValues[b].valueOf() && boardWithCellValues[b].valueOf() === boardWithCellValues[c].valueOf())
                     {
                         getActivePlayer().score++;
+                        switchPlayerTurn();
+                        printNewRound();
                         return winner = 1;
                      }
                 }
@@ -143,6 +145,7 @@ function GameController(
     };
 };
 
+
 function ScreenController() {
 
     const playerOneInput = document.getElementById('player-one-name');
@@ -155,9 +158,9 @@ function ScreenController() {
 
     const players = game.getPlayers();
 
-    const playerTurnDiv = document.querySelector('.turn');
     const boardDiv = document.querySelector('.board');
     const scoreDiv = document.querySelector('.score');
+    const playerTurnDiv = document.querySelector('.turn');
 
     const playerOneSubmitBtn = document.querySelector('#p1-submit');
     const playerTwoSubmitBtn = document.querySelector('#p2-submit');
@@ -201,7 +204,7 @@ function ScreenController() {
                 
                 playerTurnDiv.textContent = "";
                 
-                playerTurnDiv.textContent = `${players[0].name} wins!`
+                playerTurnDiv.textContent = `${activePlayer.name} wins!`
                 resetBtn.classList.add('show');
                 
             };
@@ -271,11 +274,19 @@ function ScreenController() {
                 players[1].score = 0;
                 updateScreen();
             };
+    });
+
+    const endBtn = document.querySelector('.end');
+    endBtn.textContent = "End Game";
+
+    endBtn.addEventListener('click', () => {
+        boardDiv.textContent = "";
+        playerTurnDiv.textContent = "Thank you for playing!"
+        game.reset;
     })
     
     updateScreen();
 
 };
-
 
 ScreenController();
