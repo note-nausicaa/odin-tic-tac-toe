@@ -11,8 +11,6 @@ function Gameboard(){
     const dropToken = (cell, player) => {
         const availableCells = board.filter((cell) => cell.getValue() === 0).map(cell => board[cell]);
 
-        if (!availableCells.length) return;
-
         board[cell].addToken(player);
     };
 
@@ -60,8 +58,8 @@ function GameController(
     ];
 
     let activePlayer = players[0];
-    let unactivePlayer = players[1];
     let winner = 0;
+    let tie = 0;
 
     const switchPlayerTurn = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
@@ -69,27 +67,26 @@ function GameController(
 
     const getActivePlayer = () => activePlayer;
 
-    const getUnactivePlayer = () => unactivePlayer;
-
     const getPlayers = () => players;
 
     const printNewRound = () => {
         board.printBoard();
         console.log(`${getActivePlayer().name}'s turn`)
-    }
+    };
 
     const checkWin = () => winner;
 
+    const checkTie = () => tie;
+
     const reset = () => {
-        for(i = 0; i <= 8; i++) {board.dropToken(i, 0)};
-        winner = 0;
-        board.printBoard();
-    }
-    
-    const playRound = (cell) => {
-        console.log(`${getActivePlayer().name}'s ${getActivePlayer().token} into cell ${cell}`);
-        board.dropToken(cell, getActivePlayer().token);
-        
+        for(d = 0; d <= 8; d++) {
+            board.dropToken(d, 0)
+            winner = 0;
+            tie = 0;
+        };
+    };
+
+    function findWinner() {
         const combos = [
             [0, 3, 6],
             [1, 4, 7],
@@ -100,46 +97,51 @@ function GameController(
             [0, 4, 8],
             [2, 4, 6],
             ];
+        
+        const gameBoard = board.getBoard();
+
+        const boardWithCellValues = gameBoard.map((cell) => cell.getValue());
+
+        for (let j = 0; j < boardWithCellValues.length; j++) {
+            if (boardWithCellValues[j].valueOf() !== 0)
+            tie++
+            if (tie === 9) {
+                return tie;
+            }
+            else break;
+        };
 
         for (let i = 0; i < combos.length; i++) {
             
                 let [a, b, c] = combos[i];
-
-                let gameBoard = board.getBoard();
-
-                const boardWithCellValues = gameBoard.map((cell) => cell.getValue());
                 
                 if (boardWithCellValues[a].valueOf() !== 0 && boardWithCellValues[a].valueOf() === boardWithCellValues[b].valueOf() && boardWithCellValues[b].valueOf() === boardWithCellValues[c].valueOf())
-                    {winner = 1; console.log(winner);
+                    {
                         getActivePlayer().score++;
-                        //Reset board?
-                        return {
-                            checkWin,
-                            getActivePlayer,
-                            getUnactivePlayer,
-                            getBoard: board.getBoard,
-                        };
-                    }
-            }
-
+                        return winner = 1;
+                     }
+                }
+    };
+    
+    const playRound = (cell) => {
+        console.log(`${getActivePlayer().name}'s ${getActivePlayer().token} into cell ${cell}`);
+        board.dropToken(cell, getActivePlayer().token);
+        findWinner();
         switchPlayerTurn();
         printNewRound();
+
     };
-
-    printNewRound();
-
-
 
     return {
         getPlayers,
         playRound,
         checkWin,
+        checkTie,
         getActivePlayer,
-        getUnactivePlayer,
         getBoard: board.getBoard,
         reset
-    }
-}
+    };
+};
 
 function ScreenController() {
 
@@ -159,6 +161,7 @@ function ScreenController() {
 
     const playerOneSubmitBtn = document.querySelector('#p1-submit');
     const playerTwoSubmitBtn = document.querySelector('#p2-submit');
+    const resetBtn = document.querySelector('.reset');
 
     const updateScreen = () => {
         boardDiv.textContent = "";
@@ -187,8 +190,9 @@ function ScreenController() {
 
             if (cellButton.textContent === 'x') {cellButton.classList.add('pinker')}
 
-            boardDiv.appendChild(cellButton);
+            if (cellButton.textContent === '0') {cellButton.classList.remove('pinker'); cellButton.classList.remove('blue')}
 
+            boardDiv.appendChild(cellButton);
         });
 
             if (game.checkWin() == 1) 
@@ -197,19 +201,27 @@ function ScreenController() {
                 
                 playerTurnDiv.textContent = "";
                 
-                playerTurnDiv.textContent = `${activePlayer.name} wins!`
-                const resetBtn = document.querySelector('.reset');
+                playerTurnDiv.textContent = `${players[0].name} wins!`
                 resetBtn.classList.add('show');
-                resetBtn.addEventListener('click', () => {
-                    game.reset();
-                    playerTurnDiv.classList.remove('win')
-                    resetBtn.classList.remove('show');
-                    updateScreen();
-                    })
                 
             };
 
-};
+            if (game.checkTie() === 9 && game.checkWin() == 0) {
+                playerTurnDiv.textContent = "";
+                
+                playerTurnDiv.textContent = `It's a tie!!`
+
+                resetBtn.classList.add('show');
+            }
+
+            resetBtn.addEventListener('click', () => {
+                game.reset();
+                playerTurnDiv.classList.remove('win')
+                resetBtn.classList.remove('show');
+                updateScreen();
+            });
+
+    };
 
     const modifyProperty = (array, targetID, newProperty) => {
         const targetObj = array.find(obj => obj.token === targetID);
